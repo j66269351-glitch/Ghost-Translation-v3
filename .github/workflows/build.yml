@@ -10,17 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Show uploaded files
-        run: |
-          ls -la
-          echo "--- input ---"; ls -la input || true
-          echo "--- assets ---"; ls -la app/src/main/assets || true
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
-      - uses: android-actions/setup-android@v3
-      - name: Install Android SDK parts
+      - name: Accept Android licenses
         continue-on-error: true
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.7' }
       - run: pip install pillow
